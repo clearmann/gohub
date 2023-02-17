@@ -3,6 +3,7 @@ package bootstrap
 import (
 	"errors"
 	"fmt"
+	"gohub/app/models/user"
 	"gohub/pkg/config"
 	"gohub/pkg/database"
 	"gorm.io/driver/mysql"
@@ -48,4 +49,5 @@ func SetupDB() {
 	database.SQLDB.SetMaxIdleConns(config.Get[int]("database.mysql.max_idle_connections"))
 	//设置每个链接的过期数量
 	database.SQLDB.SetConnMaxLifetime(time.Duration(config.Get[int]("database.mysql.max_life_time")) * time.Second)
+	database.DB.AutoMigrate(&user.User{})
 }
